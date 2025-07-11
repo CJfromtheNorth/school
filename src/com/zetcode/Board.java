@@ -117,12 +117,14 @@ public class Board extends JPanel implements ActionListener {
     private void gameOver(Graphics g) {
         
         String msg = "Game Over";
+        String restartMsg = "Press R to Restart";
         Font small = new Font("Helvetica", Font.BOLD, 14);
         FontMetrics metr = getFontMetrics(small);
 
         g.setColor(Color.white);
         g.setFont(small);
         g.drawString(msg, (B_WIDTH - metr.stringWidth(msg)) / 2, B_HEIGHT / 2);
+        g.drawString(restartMsg, (B_WIDTH - metr.stringWidth(restartMsg)) / 2, (B_HEIGHT / 2) + 20);
     }
 
     private void checkApple() {
@@ -240,6 +242,13 @@ public class Board extends JPanel implements ActionListener {
                 rightDirection = false;
                 leftDirection = false;
             }
+
+            if (key == KeyEvent.VK_R && !inGame) {
+                initGame();
+                inGame = true;
+                repaint();
+            }
         }
     }
+
 }

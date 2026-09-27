@@ -1,0 +1,43 @@
+package com.zetcode;
+
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
+
+class BoardTest2 {
+    BoardTest2() {
+    }
+
+    @Test
+    public void testInitGameSetsThreeDots() throws Exception {
+        Board board = new Board();
+        Method initGame = Board.class.getDeclaredMethod("initGame");
+        initGame.setAccessible(true);
+        initGame.invoke(board);
+        Field dotsField = Board.class.getDeclaredField("dots");
+        dotsField.setAccessible(true);
+        int dots = (Integer)dotsField.get(board);
+        Assertions.assertEquals(3, dots);
+    }
+
+    @Test
+    public void testInitGameSetsStartingPositions() throws Exception {
+        Board board = new Board();
+        Method initGame = Board.class.getDeclaredMethod("initGame");
+        initGame.setAccessible(true);
+        initGame.invoke(board);
+        Field xField = Board.class.getDeclaredField("x");
+        xField.setAccessible(true);
+        int[] x = (int[])xField.get(board);
+        Field yField = Board.class.getDeclaredField("y");
+        yField.setAccessible(true);
+        int[] y = (int[])yField.get(board);
+        Assertions.assertEquals(50, x[0]);
+        Assertions.assertEquals(40, x[1]);
+        Assertions.assertEquals(30, x[2]);
+        Assertions.assertEquals(50, y[0]);
+        Assertions.assertEquals(50, y[1]);
+        Assertions.assertEquals(50, y[2]);
+    }
+}

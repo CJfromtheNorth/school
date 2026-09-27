@@ -1,0 +1,104 @@
+package com.zetcode;
+
+import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
+
+class BoardTest {
+    BoardTest() {
+    }
+
+    @Test
+    void checkCollision() {
+        Board board = new Board();
+        Field xField = null;
+
+        try {
+            xField = Board.class.getDeclaredField("x");
+        } catch (NoSuchFieldException e) {
+            throw new RuntimeException(e);
+        }
+
+        xField.setAccessible(true);
+        int[] x = null;
+
+        try {
+            x = (int[])xField.get(board);
+        } catch (IllegalAccessException e) {
+            throw new RuntimeException(e);
+        }
+
+        Field yField = null;
+
+        try {
+            yField = Board.class.getDeclaredField("y");
+        } catch (NoSuchFieldException e) {
+            throw new RuntimeException(e);
+        }
+
+        yField.setAccessible(true);
+        int[] y = null;
+
+        try {
+            y = (int[])yField.get(board);
+        } catch (IllegalAccessException e) {
+            throw new RuntimeException(e);
+        }
+
+        Field inGameField = null;
+
+        try {
+            inGameField = Board.class.getDeclaredField("inGame");
+        } catch (NoSuchFieldException e) {
+            throw new RuntimeException(e);
+        }
+
+        inGameField.setAccessible(true);
+        x[0] = -10;
+        y[0] = 50;
+        Method checkCollision = null;
+
+        try {
+            checkCollision = Board.class.getDeclaredMethod("checkCollision");
+        } catch (NoSuchMethodException e) {
+            throw new RuntimeException(e);
+        }
+
+        checkCollision.setAccessible(true);
+
+        try {
+            checkCollision.invoke(board);
+        } catch (IllegalAccessException e) {
+            throw new RuntimeException(e);
+        } catch (InvocationTargetException e) {
+            throw new RuntimeException(e);
+        }
+
+        try {
+            Assertions.assertFalse((Boolean)inGameField.get(board));
+        } catch (IllegalAccessException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Test
+    public void testNoCollisionInsideBoard() throws Exception {
+        Board board = new Board();
+        Field xField = Board.class.getDeclaredField("x");
+        xField.setAccessible(true);
+        int[] x = (int[])xField.get(board);
+        Field yField = Board.class.getDeclaredField("y");
+        yField.setAccessible(true);
+        int[] y = (int[])yField.get(board);
+        Field inGameField = Board.class.getDeclaredField("inGame");
+        inGameField.setAccessible(true);
+        x[0] = 50;
+        y[0] = 50;
+        Method checkCollision = Board.class.getDeclaredMethod("checkCollision");
+        checkCollision.setAccessible(true);
+        checkCollision.invoke(board);
+        Assertions.assertTrue((Boolean)inGameField.get(board));
+    }
+}

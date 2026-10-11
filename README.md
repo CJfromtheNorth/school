@@ -43,3 +43,7 @@ To capture the required screenshots: (1) open the Actions tab and screenshot a *
 - A future refactor should extract a game-state class, inject a predictable random-number generator, and add explicit tests for full-length snake and rendering behavior.
 
 See `TESTING_NOTES.md` for the CFG/DU map and coverage interpretation worksheet.
+
+## Downloading the JaCoCo coverage report from GitHub Actions
+
+The CI workflow runs the JUnit suite and explicitly generates the JaCoCo HTML report. After a successful Actions run, open the run and download the `jacoco-html-report` artifact. Unzip it and open `index.html` in a web browser. The summary page contains the coverage table and coverage bars. Click `com.zetcode` and then `Board` for the detailed source coverage view.
